@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Khám phá và hiện thực đồ họa Fractal bằng WebGL">
+    <title>Đồ họa Fractal bằng WebGL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Bảng điều khiển -->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <h1>Đồ Họa Fractal</h1>
+                <p>Khám phá WebGL</p>
+            </header>
+
+            <section class="controls">
+                <div class="control-group">
+                    <label for="fractal-select">Thuật Toán Fractal</label>
+                    <select id="fractal-select">
+                        <option value="koch">Đường cong Koch</option>
+                        <option value="sierpinski">Tam giác Sierpinski</option>
+                        <option value="mandelbrot" selected>Tập Mandelbrot</option>
+                        <option value="julia">Tập Julia</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="iterations">
+                        <span>Số bước lặp</span>
+                        <span class="val-display" id="iterations-val">100</span>
+                    </label>
+                    <input type="range" id="iterations" min="1" max="1000" step="1" value="100">
+                </div>
+
+                <div class="control-group">
+                    <label for="zoom">
+                        <span>Mức thu phóng (Zoom)</span>
+                        <span class="val-display" id="zoom-val">1.0</span>
+                    </label>
+                    <input type="range" id="zoom" min="0.1" max="50" step="0.1" value="1.0">
+                </div>
+                
+                <div class="control-group">
+                    <label>Tùy chỉnh màu sắc</label>
+                    <div class="color-pickers">
+                        <div class="color-item">
+                            <input type="color" id="color-primary" value="#2563eb" title="Màu chính">
+                            <span>Chính</span>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-secondary" value="#38bdf8" title="Màu phụ">
+                            <span>Phụ</span>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-bg" value="#ffffff" title="Màu nền">
+                            <span>Nền</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="reset-btn" class="btn-primary">Khôi phục mặc định</button>
+            </section>
+
+            <footer class="sidebar-footer">
+                <h3>Thành viên thực hiện</h3>
+                <ul class="team-list">
+                    <li>1. Thành viên 1 - Koch & Main</li>
+                    <li>2. Thành viên 2 - Sierpinski</li>
+                    <li>3. Thành viên 3 - Mandelbrot</li>
+                    <li>4. Thành viên 4 - Julia & UI</li>
+                </ul>
+            </footer>
+        </aside>
+
+        <!-- Vùng hiển thị WebGL -->
+        <main class="canvas-container">
+            <canvas id="glcanvas"></canvas>
+            <!-- Hiển thị nội dung trong lúc tải WebGL nếu muốn xử lý ở JS sau -->
+            <div id="loading" class="hidden">Đang tải WebGL...</div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/koch.js"></script>
+    <script src="js/sierpinski.js"></script>
+    <script src="js/complex.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
