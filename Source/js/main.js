@@ -23,6 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Hàm chuyên biệt chuyển đổi Hex sang RGB để WebGL sử dụng (0.0 - 1.0)
+    function hexToRgb(hex) {
+        if (!hex) return [0, 0, 0];
+        const r = parseInt(hex.slice(1, 3), 16) / 255;
+        const g = parseInt(hex.slice(3, 5), 16) / 255;
+        const b = parseInt(hex.slice(5, 7), 16) / 255;
+        return [r, g, b];
+    }
+
     // Hàm render chính, quyết định sẽ gọi script nào
     function draw() {
         resizeCanvas();
@@ -30,8 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const config = getUIConfig();
 
-        // Dọn dẹp canvas trước khi vẽ mới
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        // Dọn dẹp canvas với màu nền được chọn từ UI
+        const bgColor = hexToRgb(config.colorBg);
+        gl.clearColor(bgColor[0], bgColor[1], bgColor[2], 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
         // Điều hướng thuật toán
@@ -46,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 'koch':
                 // Chờ thành viên 1 code renderKoch(gl, config)
+                renderKoch(gl, config);
                 break;
             case 'sierpinski':
                 // Chờ thành viên 2 code renderSierpinski(gl, config)
@@ -69,10 +80,88 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('color-primary').value = "#2563eb";
         document.getElementById('color-secondary').value = "#38bdf8";
         document.getElementById('color-bg').value = "#ffffff";
+        currentOffsetX = 0.0;
+        currentOffsetY = 0.0;
+        adjustUIForFractalType();
         draw();
     });
 
+    // Xử lý các nút thiết lập nhanh
+    document.getElementById('btn-light').addEventListener('click', () => {
+        document.getElementById('color-bg').value = "#ffffff";
+        document.getElementById('color-primary').value = "#2563eb";
+        draw();
+    });
+
+    document.getElementById('btn-dark').addEventListener('click', () => {
+        document.getElementById('color-bg').value = "#0f172a";
+        document.getElementById('color-primary').value = "#38bdf8";
+        draw();
+    });
+    // ============================================================
+    // Zoom bằng lăn chuột (Mouse Wheel)
+    // ============================================================
+    canvas.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const zoomInput = document.getElementById('zoom');
+        let currentZoom = parseFloat(zoomInput.value);
+        
+        // Zoom theo hệ số nhân (mượt hơn cộng trừ tuyến tính)
+        const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+        currentZoom = Math.max(0.1, Math.min(100, currentZoom * zoomFactor));
+        
+        zoomInput.value = currentZoom.toFixed(2);
+        draw();
+    }, { passive: false });
+
+    // ============================================================
+    // Kéo thả chuột để di chuyển (Pan / Drag)
+    // ============================================================
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        canvas.style.cursor = 'grabbing';
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        
+        const zoomInput = document.getElementById('zoom');
+        const currentZoom = parseFloat(zoomInput.value);
+        
+        // Tính delta di chuyển và chuyển đổi sang hệ tọa độ WebGL
+        const dx = (e.clientX - lastMouseX) / canvas.clientWidth * 2 / currentZoom;
+        const dy = -(e.clientY - lastMouseY) / canvas.clientHeight * 2 / currentZoom;
+        
+        updateOffset(dx, dy);
+        
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        
+        draw();
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isDragging = false;
+        canvas.style.cursor = 'grab';
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        isDragging = false;
+        canvas.style.cursor = 'grab';
+    });
+
+    // Đặt cursor mặc định cho canvas
+    canvas.style.cursor = 'grab';
+
+    // Điều chỉnh UI cho loại fractal mặc định khi trang vừa load
+    adjustUIForFractalType();
+
     // Vẽ lần đầu tiên khi web vừa load xong
-    // (Vì giá trị mặc định của select đang là mandelbrot nên bạn cần chuyển sang julia trên UI để thấy kết quả)
     draw();
-});
+});

@@ -43,11 +43,11 @@ function adjustUIForFractalType() {
 
     if (type === 'koch' || type === 'sierpinski') {
         // Fractal hình học: Giới hạn đệ quy để tránh treo trình duyệt
-        iterInput.min = "1";
+        iterInput.min = "0";
         iterInput.max = "7";
         // Nếu giá trị hiện tại vượt quá max mới, ép nó về mức an toàn
         if (parseInt(iterInput.value) > 7) {
-            iterInput.value = "5"; 
+            iterInput.value = "3"; 
         }
     } else {
         // Fractal điểm ảnh (Mandelbrot/Julia): Cần số lần lặp lớn để ra chi tiết
