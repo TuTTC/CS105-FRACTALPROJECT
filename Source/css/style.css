@@ -132,6 +132,14 @@ body {
     border-radius: 20px; /* Bo gọn thành hình viên thuốc */
 }
 
+.control-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
+    text-align: center;
+}
+
 /* Dropdown / Select Box */
 select {
     width: 100%;
@@ -251,6 +259,36 @@ input[type="color"]::-webkit-color-swatch {
 .btn-primary:active {
     transform: translateY(1px);
     box-shadow: 0 2px 8px rgba(244, 114, 182, 0.3);
+}
+
+.preset-buttons {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.btn-secondary {
+    flex: 1;
+    padding: 0.6rem;
+    background: #f8fafc;
+    color: var(--text-main);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius-md);
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
 }
 
 /* Footer Section */

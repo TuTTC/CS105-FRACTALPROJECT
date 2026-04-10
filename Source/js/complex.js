@@ -17,6 +17,7 @@ const juliaFS_v2 = `#version 300 es
     // Các biến nhận từ giao diện UI của bạn
     uniform vec2 u_resolution;
     uniform float u_zoom;
+    uniform vec2 u_offset;
     uniform float u_iterations;
     uniform vec2 u_c;
     
@@ -65,8 +66,8 @@ const juliaFS_v2 = `#version 300 es
                 vec2 fragCoord = gl_FragCoord.xy + vec2(x, y);
                 vec2 coord = (2.0 * fragCoord - u_resolution) / min(u_resolution.x, u_resolution.y);
                 
-                // Áp dụng Zoom từ UI
-                vec2 z = coord / u_zoom;
+                // Áp dụng Zoom và Offset từ UI
+                vec2 z = coord / u_zoom - u_offset;
 
                 color += draw(z, u_c);
                 samples++;
@@ -122,6 +123,7 @@ function renderJulia(gl, config) {
     // 4. Truyền dữ liệu từ 'config' (Lấy từ UI) xuống GPU
     gl.uniform2f(gl.getUniformLocation(program, "u_resolution"), gl.canvas.width, gl.canvas.height);
     gl.uniform1f(gl.getUniformLocation(program, "u_zoom"), config.zoom);
+    gl.uniform2f(gl.getUniformLocation(program, "u_offset"), config.offsetX, config.offsetY);
     gl.uniform1f(gl.getUniformLocation(program, "u_iterations"), config.iterations);
     
     // Sử dụng hằng số C đẹp từ code mẫu (-0.73, -0.2) làm mặc định nếu UI không truyền xuống
