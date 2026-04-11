@@ -41,7 +41,7 @@ function adjustUIForFractalType() {
     const type = document.getElementById('fractal-select').value;
     const iterInput = document.getElementById('iterations');
 
-    if (type === 'koch' || type === 'sierpinski') {
+    if (type === 'koch' || type === 'sierpinski' || type === 'minkowski') {
         // Fractal hình học: Giới hạn đệ quy để tránh treo trình duyệt
         iterInput.min = "0";
         iterInput.max = "7";
