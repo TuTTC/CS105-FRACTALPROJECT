@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-=======
-// Sinh dữ liệu đỉnh cho Minkowski Island để vẽ bằng gl.LINE_STRIP
-
->>>>>>> Stashed changes
 function createMinkowskiIslandVertices(depth) {
     // Giới hạn depth để tránh số đoạn tăng quá nhanh
     depth = Math.max(0, Math.min(Math.floor(depth), 4));
