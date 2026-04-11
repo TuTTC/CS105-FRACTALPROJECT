@@ -66,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Gọi hàm từ js/minkowski.js
                 renderMinkowski(gl, config);
                 break;
+            case 'carpet':
+                console.log("Sierpinski Carpet");
+                break;
         }
     }
 
