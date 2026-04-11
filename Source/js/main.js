@@ -59,7 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderKoch(gl, config);
                 break;
             case 'sierpinski':
-                // Chờ thành viên 2 code renderSierpinski(gl, config)
+                // Gọi hàm từ js/sierpinski.js
+                renderSierpinski(gl, config);
+                break;
+            case 'minkowski':
+                // Gọi hàm từ js/minkowski.js
+                renderMinkowski(gl, config);
                 break;
         }
     }
@@ -164,4 +169,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Vẽ lần đầu tiên khi web vừa load xong
     draw();
-});
+});
