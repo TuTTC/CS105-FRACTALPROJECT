@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderJulia(gl, config);
                 break;
             case 'mandelbrot':
-                // Chờ thành viên 3 code renderMandelbrot(gl, config)
-                console.log("Đang chờ hàm Mandelbrot");
+                // Gọi hàm từ js/mandelbrot.js
+                renderMandelbrot(gl, config);
                 break;
             case 'koch':
                 // Chờ thành viên 1 code renderKoch(gl, config)
